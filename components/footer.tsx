@@ -6,7 +6,7 @@ export default function Footer() {
         <div className="flex flex-col items-center mb-12">
           <div className="text-4xl font-black tracking-tighter mb-2">
             <span className="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
-              TECH
+              TACTICAL
             </span>
             <span className="text-white ml-2">HIVE</span>
           </div>
