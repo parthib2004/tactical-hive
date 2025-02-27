@@ -105,12 +105,24 @@ export default function Story() {
 
   return (
     <section id="our-story" className="relative min-h-screen grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-24">
-      {/* Left side - Animation */}
-      <div className="relative h-[500px] mx-auto w-full max-w-[500px]">
+      {/* Left side - Title and Animation */}
+      <div className="relative h-[500px]">
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full rounded-lg"
         />
+        
+        {/* Updated title with new gradient */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h2 className="text-6xl md:text-7xl font-black tracking-tighter z-20">
+            <span className="bg-gradient-to-br from-white via-blue-100 to-blue-200 bg-clip-text text-transparent transition-all duration-500">
+              OUR
+            </span>
+            <span className="text-white ml-4 drop-shadow-[0_0_25px_rgba(0,0,0,0.8)]">
+              STORY
+            </span>
+          </h2>
+        </div>
       </div>
 
       {/* Vertical Divider */}
@@ -118,13 +130,10 @@ export default function Story() {
         <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
       </div>
 
-      {/* Right side - Story */}
+      {/* Right side - Content */}
       <div className="p-8">
         <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
           <div className="p-8">
-            <h2 className="text-4xl font-bold text-white mb-8 tracking-tighter">
-              Our Story
-            </h2>
             <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
               <p>
                 Tactical Hive is the next generation of defense innovation, bringing 

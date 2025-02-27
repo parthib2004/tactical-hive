@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 
 export default function Capabilities() {
+  const titleRef = useRef<HTMLDivElement>(null)
   const canvasRef1 = useRef<HTMLCanvasElement>(null)
   const canvasRef2 = useRef<HTMLCanvasElement>(null)
   const canvasRef3 = useRef<HTMLCanvasElement>(null)  // New canvas ref
@@ -322,117 +323,150 @@ export default function Capabilities() {
     return () => window.removeEventListener("resize", resizeCanvas)
   }, [])
 
+  // Update scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!titleRef.current) return
+      const titleElement = titleRef.current
+      const section = document.getElementById('capabilities')
+      if (!section) return
+      
+      const sectionTop = section.offsetTop
+      const sectionBottom = sectionTop + section.offsetHeight - window.innerHeight
+      const scrollPosition = window.scrollY - sectionTop
+
+      if (scrollPosition >= 0 && window.scrollY < sectionBottom) {
+        titleElement.classList.add(
+          'fixed',
+          'top-24',
+          'left-8',
+          'z-40',
+          'drop-shadow-[0_0_25px_rgba(0,0,0,0.8)]'
+        )
+      } else {
+        titleElement.classList.remove(
+          'fixed',
+          'top-24',
+          'left-8',
+          'z-40',
+          'drop-shadow-[0_0_25px_rgba(0,0,0,0.8)]'
+        )
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <section id="capabilities" className="relative">
-      {/* Main title - Centered */}
-      <div className="absolute top-1/6 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <h2 className="text-7xl font-bold text-white tracking-tighter text-center mb-12 bg-black/20 px-8 py-4 rounded-lg backdrop-blur-sm">
-          Capabilities
-        </h2>
-      </div>
-
-      {/* First capability - Spatial Awareness */}
-      <div className="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 items-center relative">
-        {/* Left side - Animation */}
-        <div className="relative h-[600px]">
-          <canvas
-            ref={canvasRef1}
-            className="absolute inset-0 w-full h-full rounded-lg"
-          />
-        </div>
-
-        {/* Vertical Divider for first section */}
-        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-y-1/2 w-[1px] h-[50%]">
-          <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-        </div>
-
-        {/* Right side - Content */}
-        <div className="p-8">
-          <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
-            <div className="p-8">
-              <h3 className="text-4xl font-bold text-white mb-8 tracking-tighter">
-                Spatial Awareness
-              </h3>
-              <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
-                <p>
-                  Tactical Hive provides unparalleled visibility by mapping terrains 
-                  and tracking assets in real time. Our technology ensures a 360-degree 
-                  perspective, enabling rapid identification and response to threats 
-                  across diverse and challenging environments.
-                </p>
-              </div>
-            </div>
-          </Card>
+    <section id="capabilities" className="relative pt-24">
+      {/* Title that will stick while scrolling */}
+      <div ref={titleRef} className="transition-all duration-300">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2">
+          <div className="flex items-center justify-center md:justify-start pl-12">
+            <h2 className="text-6xl md:text-6xl font-bold text-white tracking-tighter drop-shadow-[0_0_25px_rgba(0,0,0,0.8)]">
+              Capabilities
+            </h2>
+          </div>
         </div>
       </div>
 
-      {/* Second capability - Intelligent Teaming */}
-      <div className="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 items-center relative">
-        {/* Left side - Animation */}
-        <div className="relative h-[600px]">
-          <canvas
-            ref={canvasRef2}
-            className="absolute inset-0 w-full h-full rounded-lg"
-          />
-        </div>
-
-        {/* Vertical Divider for second section */}
-        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-y-1/2 w-[1px] h-[50%]">
-          <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-        </div>
-
-        {/* Right side - Content */}
-        <div className="p-8">
-          <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
-            <div className="p-8">
-              <h3 className="text-4xl font-bold text-white mb-8 tracking-tighter">
-                Intelligent Teaming
-              </h3>
-              <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
-                <p>
-                  Our AI-powered system optimizes coordination between UAVs, ground 
-                  vehicles, and human operatives. This intelligent collaboration 
-                  enhances mission efficiency, enabling seamless communication and 
-                  execution across multi-domain operations.
-                </p>
-              </div>
+      {/* Capabilities Cards with Dividers */}
+      <div className="relative">
+        {/* First capability - Spatial Awareness */}
+        <div className="min-h-screen sticky top-0 flex items-center">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 relative">
+            <div className="relative h-[600px]">
+              <canvas ref={canvasRef1} className="absolute inset-0 w-full h-full rounded-lg" />
             </div>
-          </Card>
-        </div>
-      </div>
-
-      {/* Third capability - Enhanced Vision Integration */}
-      <div className="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 items-center relative">
-        {/* Left side - Animation */}
-        <div className="relative h-[600px]">
-          <canvas
-            ref={canvasRef3}
-            className="absolute inset-0 w-full h-full rounded-lg"
-          />
-        </div>
-
-        {/* Vertical Divider for third section */}
-        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-y-1/2 w-[1px] h-[50%]">
-          <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
-        </div>
-
-        {/* Right side - Content */}
-        <div className="p-8">
-          <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
-            <div className="p-8">
-              <h3 className="text-4xl font-bold text-white mb-8 tracking-tighter">
-                Enhanced Vision Integration
-              </h3>
-              <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
-                <p>
-                  Tactical Hive can be seamlessly integrated with existing systems 
-                  that feature vision capabilities. By upgrading these systems with 
-                  AI-driven precision, we transform them into powerful tools for 
-                  reconnaissance, targeting, and situational awareness.
-                </p>
-              </div>
+            
+            {/* Vertical Divider */}
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-y-1/2 w-[1px] h-[70%]">
+              <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
             </div>
-          </Card>
+
+            <div className="p-8">
+              <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
+                <div className="p-8">
+                  <h3 className="text-4xl font-bold text-white mb-8 tracking-tighter">
+                    Spatial Awareness
+                  </h3>
+                  <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
+                    <p>
+                      Tactical Hive provides unparalleled visibility by mapping terrains 
+                      and tracking assets in real time. Our technology ensures a 360-degree 
+                      perspective, enabling rapid identification and response to threats 
+                      across diverse and challenging environments.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+
+        {/* Second capability - Intelligent Teaming */}
+        <div className="min-h-screen sticky top-0 flex items-center">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 relative">
+            <div className="relative h-[600px]">
+              <canvas ref={canvasRef2} className="absolute inset-0 w-full h-full rounded-lg" />
+            </div>
+            
+            {/* Vertical Divider */}
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-y-1/2 w-[1px] h-[70%]">
+              <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
+            </div>
+
+            <div className="p-8">
+              <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
+                <div className="p-8">
+                  <h3 className="text-4xl font-bold text-white mb-8 tracking-tighter">
+                    Intelligent Teaming
+                  </h3>
+                  <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
+                    <p>
+                      Our AI-powered system optimizes coordination between UAVs, ground 
+                      vehicles, and human operatives. This intelligent collaboration 
+                      enhances mission efficiency, enabling seamless communication and 
+                      execution across multi-domain operations.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+
+        {/* Third capability - Enhanced Vision Integration */}
+        <div className="min-h-screen sticky top-0 flex items-center">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 relative">
+            <div className="relative h-[600px]">
+              <canvas ref={canvasRef3} className="absolute inset-0 w-full h-full rounded-lg" />
+            </div>
+            
+            {/* Vertical Divider */}
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-y-1/2 w-[1px] h-[70%]">
+              <div className="w-full h-full bg-gradient-to-b from-transparent via-white/50 to-transparent"></div>
+            </div>
+
+            <div className="p-8">
+              <Card className="bg-black/40 border-white/10 backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
+                <div className="p-8">
+                  <h3 className="text-4xl font-bold text-white mb-8 tracking-tighter">
+                    Enhanced Vision Integration
+                  </h3>
+                  <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
+                    <p>
+                      Tactical Hive can be seamlessly integrated with existing systems 
+                      that feature vision capabilities. By upgrading these systems with 
+                      AI-driven precision, we transform them into powerful tools for 
+                      reconnaissance, targeting, and situational awareness.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
     </section>
